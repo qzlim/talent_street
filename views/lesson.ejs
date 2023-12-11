@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Talent Street</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/assets/img/favicon.png" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="/assets/css/main.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="/assets/js/main.js"></script>
+</head>
+
+<body class="lesson" data-bs-spy="scroll" data-bs-target="#navmenu">
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header sticky-top d-flex align-items-center">
+        <%- include('navbar.ejs') %>
+    </header><!-- End Header -->
+
+    <main id="main">
+
+        <!-- Lesson Page Title & Breadcrumbs -->
+        <div data-aos="fade" class="page-title">
+            <div class="heading">
+                <div class="container">
+                    <div class="row d-flex justify-content-center text-center">
+                        <div class="col-lg-8">
+                            <% if (typeof isSearchResult !=='undefined' && isSearchResult) { %>
+                                <h4>Your Search Input: <b>
+                                        <%= regexPattern %>
+                                    </b></h4>
+                                <% } %>
+
+                                    <h1>
+                                        <%= subcategoryTitle %>
+                                    </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="breadcrumbs">
+                <div class="container">
+                    <ol>
+                        <li><a href="/#home">Home</a></li>
+                        <li><a href="/subcategory/<%= categoryTitle %>">
+                                <%= categoryTitle %>
+                            </a></li>
+                        <li class="current">
+                            <%= subcategoryTitle %>
+                        </li>
+                    </ol>
+                </div>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <!-- Lesson Section - Lesson Page -->
+        <section id="lesson" class="lesson">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row g-5">
+
+                    <div class="col-lg-9">
+
+                        <div class="row gy-4 posts-list">
+                            <% lessons.forEach(lesson=> { %>
+                                <div class="col-xl-4 col-lg-6 post-box">
+                                    <article>
+                                        <div class="post-teacher">
+                                            <a href="/lessondetails/<%= lesson._id %>">
+                                                <% const teacher=teachers.find(teacher=> teacher._id ===
+                                                    lesson.teacher); %>
+                                                    <%= teacher ? teacher.name : 'N/A' %>
+                                            </a>
+                                        </div>
+
+                                        <div class="d-flex rate-loc">
+                                            <div style="font-weight: bold;">
+                                                <h5><span class="bi bi-star"></span>&nbsp;<%= lesson.rating %>
+                                                </h5>
+                                            </div>
+                                            <div>
+                                                <span class="location">
+                                                    <%= lesson.location %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p class="post-description">
+                                            <%= lesson.description %>
+                                        </p>
+
+                                        <br>
+                                        <div>
+                                            <div>
+
+                                                <span class="level">
+                                                    <%= lesson.level %>
+                                                </span>
+                                            </div>
+                                            <div class="price">
+                                                RM
+                                                <span class="price-value">
+                                                    <%= lesson.price %>
+                                                </span>
+                                                /hr
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div><!-- End post list item -->
+                                <% }); %>
+                        </div><!-- End lesson posts list -->
+
+                    </div>
+
+                    <div class="col-lg-3">
+
+                        <div class="sidebar">
+
+                            <div class="sidebar-item">
+                                <h3 class="sidebar-title">Price</h3>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault" value="0,0" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexRadioDefault">
+                                        None
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault1" value="0,50" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Below RM 50
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" value="50,100" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        RM 50 to RM 100
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault3" value="100,150" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        RM 100 to RM 150
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault4" value="150,1000" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                        Above RM 150
+                                    </label>
+                                </div>
+                            </div><!-- End sidebar price section -->
+
+                            <div class="sidebar-item">
+                                <h3 class="sidebar-title">Level</h3>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="level" value="Beginner"
+                                        id="flexCheckDefault1" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexCheckDefault1">
+                                        Beginner
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="level" value="Intermediate"
+                                        id="flexCheckDefault2" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexCheckDefault2">
+                                        Intermediate
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="level" value="Advanced"
+                                        id="flexCheckDefault3" onchange="applyFilters()">
+                                    <label class="form-check-label" for="flexCheckDefault3">
+                                        Advanced
+                                    </label>
+                                </div>
+                            </div><!-- End sidebar level-->
+
+                            <div class="sidebar-item">
+                                <h3 class="sidebar-title">Location</h3>
+                                <br>
+                                <select class="form-select" name="location" onchange="applyFilters()">
+                                    <option value="">-</option>
+                                    <option value="Selangor">Selangor</option>
+                                    <option value="Johor">Johor</option>
+                                    <option value="Melaka">Melaka</option>
+                                    <option value="Penang">Penang</option>
+                                    <option value="Kedah">Kedah</option>
+                                    <option value="Kelantan">Kelantan</option>
+                                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                    <option value="Pahang">Pahang</option>
+                                    <option value="Perak">Perak</option>
+                                    <option value="Perlis">Perlis</option>
+                                    <option value="Terrenganu">Terrenganu</option>
+                                    <option value="Sabah">Sabah</option>
+                                    <option value="Sarawak">Sarawak</option>
+                                </select>
+                            </div><!-- End sidebar location-->
+
+
+                        </div><!-- End Sidebar -->
+
+                    </div>
+
+                </div><!-- End lesson posts list -->
+
+
+            </div>
+
+
+            </div>
+
+        </section><!-- End lesson Section -->
+
+    </main>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">© 2023 Talent Street</p>
+
+        <a href="/index.html"
+            class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <i class="fa fa-superpowers" aria-hidden="true"></i>
+        </a>
+
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="/index.html#category" class="nav-link px-2 text-body-secondary">Category</a>
+            </li>
+            <li class="nav-item"><a href="/index.html#about" class="nav-link px-2 text-body-secondary">About</a></li>
+            <li class="nav-item"><a href="/index.html#howitworks" class="nav-link px-2 text-body-secondary">How It
+                    Works</a></li>
+        </ul>
+    </footer>
+
+    <!-- Scroll Top Button -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/vendor/aos/aos.js"></script>
+    <script src="/assets/vendor/php-email-form/validate.js"></script>
+
+    <script>
+        function getSelectedPriceFilter() {
+            if ($('[name="flexRadioDefault"]:checked').length > 0) {
+                const selectedPrices = $('[name="flexRadioDefault"]:checked').val().split(',');
+                const lowerPrice = Number(selectedPrices[0], 10);
+                const upperPrice = Number(selectedPrices[1], 10);
+                return { lowerPrice, upperPrice };
+            } else {
+                const lowerPrice = 0;
+                const upperPrice = 0;
+                return { lowerPrice, upperPrice };
+            }
+
+        }
+
+        function getSelectedLevelFilters() {
+            const selectedLevelFilters = [];
+
+            $('input[type="checkbox"][name="level"]:checked').each(function () {
+                selectedLevelFilters.push($(this).val());
+            });
+
+            if (selectedLevelFilters.length === 0) {
+                return [];
+            }
+
+            return selectedLevelFilters;
+        }
+
+        function getSelectedLocationFilters() {
+            const selectedLocation = $('select[name="location"]').val();
+
+            if (!selectedLocation) {
+                return [];
+            }
+
+            return [selectedLocation];
+        }
+
+        function filterLessons(priceFilter, levelFilters, locationFilters) {
+            $('.post-box').each(function () {
+                const lesson = $(this);
+                const price = Number(lesson.find('.price-value').text());
+                const level = lesson.find('.level').text().trim();
+                const location = lesson.find('.location').text().trim();
+
+                console.log(location)
+
+                const pricePasses = (priceFilter.lowerPrice === 0 && priceFilter.upperPrice === 0) ||
+                    (price >= priceFilter.lowerPrice && price <= priceFilter.upperPrice);
+
+                const levelPasses = levelFilters.length === 0 || levelFilters.includes(level);
+
+                const locationPasses = locationFilters.length === 0 || locationFilters.includes(location);
+
+                console.log(levelFilters);
+                console.log(locationPasses);
+
+                if (pricePasses && levelPasses && locationPasses) {
+                    lesson.show();
+                } else {
+                    lesson.hide();
+                }
+            });
+        }
+
+        function applyFilters() {
+            // Retrieve the selected price filter.
+            const priceFilter = getSelectedPriceFilter();
+
+            // Retrieve the selected level filters.
+            const levelFilters = getSelectedLevelFilters();
+
+            const locationFilters = getSelectedLocationFilters();
+
+            // Filter lessons based on the selected criteria.
+            filterLessons(priceFilter, levelFilters, locationFilters);
+        }
+    </script>
+
+
+    <!--<script>
+        function filterPrice(e) {
+            const selectedPrices = $(e).val().split(','); // Split the values
+            const lowerPrice = Number(selectedPrices[0], 10);
+            const upperPrice = Number(selectedPrices[1], 10);
+
+            if (lowerPrice === 0 && upperPrice === 0) {
+                $('.price-value').each(function () {
+                    $('.post-box').show();
+                });
+            } else {
+
+                $('.price-value').each(function () {
+                    const price = Number($(this).text());
+                    const lesson = $(this).closest('.post-box');
+
+                    if (price >= lowerPrice && price <= upperPrice) {
+                        lesson.show();
+                    } else {
+                        lesson.hide();
+                    }
+                });
+
+            }
+        }
+
+        function filterLevel(e, name) {
+            if ($(e).is(':checked') == true) {
+                $('.level').each(function () {
+                    const lesson = $(this).closest('.post-box');
+                    const level = ($(this).text());
+                    if (level != name) {
+                        lesson.hide();
+                    }
+                })
+            }
+            if ($(e).is(':checked') == false) {
+                $('.level').each(function () {
+                    const lesson = $(this).closest('.post-box');
+                    const level = ($(this).text());
+                    if (level != name) {
+                        lesson.show();
+                    }
+                })
+            }
+        }
+    </script> -->
+
+
+</body>
+
+</html>

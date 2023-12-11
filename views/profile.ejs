@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Talent Street</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/assets/img/favicon.png" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="/assets/css/main.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="/assets/js/main.js"></script>
+</head>
+
+<body class="profile-page" data-bs-spy="scroll" data-bs-target="#navmenu">
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header sticky-top d-flex align-items-center">
+        <%- include('navbar.ejs') %>
+    </header><!-- End Header -->
+
+
+    <main id="main">
+        <section id="profile" class="profile">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+                <div class="title">
+                    Profile Details
+                </div>
+
+                <div class="content align-items-center">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-weight:bold"><i class="bi bi-person"></i> First Name<span
+                                    style="float:right">:</span></p>
+                        </div>
+                        <div class="col-md-6" style="text-align: center;">
+                            <p>
+                                <%= isLoggedIn.firstName %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-weight:bold"><i class="bi bi-person"></i> Last Name<span
+                                    style="float:right">:</span></p>
+                        </div>
+                        <div class="col-md-6" style="text-align: center;">
+                            <p>
+                                <%= isLoggedIn.lastName %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-weight:bold"><i class="bi bi-envelope"></i> Email<span
+                                    style="float:right">:</span></p>
+                        </div>
+                        <div class="col-md-6" style="text-align: center;">
+                            <p>
+                                <%= isLoggedIn.email %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" style="border-top:1px solid black">
+                        <div class="col-md-12" style="text-align: center; margin-top:20px;">
+                            <a class="btn-primary btn-getstarted" onclick="openChangePasswordModal()">Change Password</a>
+                        </div>
+                    </div>
+                    
+                    <div id="changePasswordModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeChangePasswordModal()">&times;</span>
+                            <form>
+                                <label for="currentPassword">Current Password:</label>
+                                <input type="password" id="currentPassword" required>
+                    
+                                <label for="newPassword">New Password:</label>
+                                <input type="password" id="newPassword" required>
+                    
+                                <button type="submit" class="btn-primary btn-getstarted">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End profile details list -->
+
+        </section><!-- End profile Section -->
+
+        <section id="booking-history" class="booking-history">
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+                <div class="title">
+                    Booking History
+                </div>
+                <div class="content align-items-center">
+
+                    <div class="row"
+                        style="text-align: center; font-weight: bold; border-bottom: 1px solid rgba(var(--default-color-rgb), 0.5); padding-bottom: 15px;">
+                        <div class="col-md-2">
+                            Teacher
+                        </div>
+                        <div class="col-md-2">
+                            Subcategory
+                        </div>
+                        <div class="col-md-2">
+                            Date
+                        </div>
+                        <div class="col-md-1">
+                            Time
+                        </div>
+                        <div class="col-md-2">
+                            Duration
+                        </div>
+                        <div class="col-md-1">
+                            Price
+                        </div>
+                        <div class="col-md-2">
+                            Date of booking
+                        </div>
+                    </div>
+                    <!-- Loop through the bookings to display data -->
+                    <% for (let i=0; i < bookings.length; i++) { %>
+                        <div class="row" style="text-align: center; padding: 5px">
+                            <div class="col-md-2">
+                                <a href="/lessondetails/<%= bookings[i].lessonID %>"><%= teacherNames[i] %></a>
+                                
+                            </div>
+                            <div class="col-md-2">
+                                <%= subcategoryNames[i] %>
+                            </div>
+                            <div class="col-md-2">
+                                <%= bookings[i].date %>
+                            </div>
+                            <div class="col-md-1">
+                                <%= bookings[i].time %>
+                            </div>
+                            <div class="col-md-2">
+                                <%= bookings[i].duration %>
+                            </div>
+                            <div class="col-md-1">
+                                <%= bookings[i].price %>
+                            </div>
+                            <div class="col-md-2">
+                                <%= bookings[i].datebooked %>
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+
+                <!-- Pagination section -->
+                <div class="pagination">
+                    <ul>
+                        <% if (currentPage> 1) { %>
+                            <li><a class="btn-getstarted" href="/profile?page=<%= currentPage - 1 %>">Previous</a></li>
+                            <% } %>
+                                <% if (bookings.length===perPage) { %>
+                                    <li><a class="btn-getstarted" href="/profile?page=<%= currentPage + 1 %>">Next</a>
+                                    </li>
+                                    <% } %>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">© 2023 Talent Street</p>
+
+        <a href="/index.html"
+            class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <i class="fa fa-superpowers" aria-hidden="true"></i>
+        </a>
+
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="/index.html#category" class="nav-link px-2 text-body-secondary">Category</a>
+            </li>
+            <li class="nav-item"><a href="/index.html#about" class="nav-link px-2 text-body-secondary">About</a></li>
+            <li class="nav-item"><a href="/index.html#howitworks" class="nav-link px-2 text-body-secondary">How It
+                    Works</a></li>
+        </ul>
+    </footer>
+
+    <!-- Scroll Top Button -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/vendor/aos/aos.js"></script>
+    <script src="/assets/vendor/php-email-form/validate.js"></script>
+    <!-- ... (your existing HTML) -->
+
+<script>
+    function openChangePasswordModal() {
+        // Show the modal
+        document.getElementById('changePasswordModal').style.display = 'block';
+    }
+
+    function closeChangePasswordModal() {
+        // Hide the modal
+        document.getElementById('changePasswordModal').style.display = 'none';
+    }
+</script>
+
+
+</body>
+
+</html>
