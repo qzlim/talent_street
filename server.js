@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
 
 
 
-mongoose.connect('mongodb://0.0.0.0:27017/talentstreet');
+mongoose.connect('mongodb://127.0.0.1:27017/talentstreet');
 
 const connection = mongoose.connection;
 connection.once('open', () => {
