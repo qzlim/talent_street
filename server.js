@@ -19,10 +19,11 @@ const profileRouter = require('./routes/profileRoute');
 const forgotRouter = require('./routes/forgotRoute');
 
 app.use(session({
-  secret: 'talentSTREET',
+  secret: process.env.SESSION_SECRET || 'talentSTREET',
   resave: false,
   saveUninitialized: false,
 }));
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
@@ -52,16 +53,18 @@ app.get('/', (req, res) => {
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/talentstreet');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/talentstreet');
+
 
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
 });
 
+const port = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-  console.log("App listening on port 3000");
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
 });
 
 app.use(express.static(path.join(__dirname + '/public')));
